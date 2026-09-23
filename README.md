@@ -1,5 +1,13 @@
 # SDLC Project Template
 
+## Todo CLI
+
+Run the local todo manager with `python3 -m todo_cli`:
+
+- `add TEXT...` adds a todo; `list` shows all todos; `complete ID` marks one complete; `delete ID` removes one.
+- Data is stored at `~/.todo-cli-test/todos.json` by default. Set `TODO_CLI_FILE` to use another path.
+- Run the standard-library tests with `python3 -m unittest discover -s tests -t . -v`.
+
 A small, agent-neutral starter repository for an AI-native software development lifecycle.
 
 This template turns the repository itself into the shared control plane for planning, implementation, verification, and review. It is inspired by the AI-Native SDLC playbook and generalizes the artifact-driven workflow so it can be used with different coding agents.
