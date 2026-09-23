@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "baseline": {
+    "intent.md": "sha256:5acae8a69495f6cccf4b4c059e0c979f1b513004fd9e83a50c2ef14843b40dbd",
+    "spec.md": "sha256:a3096645cafc2319eda02da58b9f4276c450ecbb77670f0ec8b394bee0995b5b"
+  },
+  "packet_sha256": "sha256:6aba8e67056132a08d6701aa2440901c23bcae108b39d6ce346fff7f17dee94a",
+  "evidence": [
+    "local: python3 scripts/repo.py verify --change product-init -> control-plane passed, product-tests passed (.evidence/20260923T133719069932Z/evidence.json)",
+    "local: python3 scripts/repo.py verify --full -> control-plane passed, product-tests passed (.evidence/20260923T133739266729Z/evidence.json)"
+  ]
+}

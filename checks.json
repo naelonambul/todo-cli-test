@@ -10,6 +10,15 @@
       "timeout_seconds": 600,
       "paths": ["scripts/**", "checks.json", "changes/**", ".github/**", ".claude/**", ".agents/**", "AGENTS.md", "intent.md", "spec.md", ".gitattributes"],
       "requires": ["python3", "git"]
+    },
+    {
+      "id": "product-tests",
+      "group": "core",
+      "argv": ["python3", "-m", "unittest", "discover", "-s", "tests", "-t", "."],
+      "cwd": ".",
+      "timeout_seconds": 300,
+      "paths": ["todo_cli/**", "tests/**", "checks.json"],
+      "requires": ["python3"]
     }
   ]
 }
