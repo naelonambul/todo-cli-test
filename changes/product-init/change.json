@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "id": "product-init",
+  "kind": "product-init",
+  "title": "Establish the todo CLI product baseline (intent, spec) and first implementation",
+  "base": {
+    "ref": "main",
+    "commit": "fe35f063f6a03a3ca6aab948d57f93614ee675e8"
+  },
+  "baseline": {},
+  "write_scope": [
+    "intent.md",
+    "spec.md",
+    "checks.json",
+    "todo_cli/**",
+    "tests/**",
+    "README.md"
+  ],
+  "approvals": [
+    {
+      "artifact": "intent.md",
+      "sha256": "sha256:5acae8a69495f6cccf4b4c059e0c979f1b513004fd9e83a50c2ef14843b40dbd",
+      "by": "naelonambul (owner)",
+      "at": "2026-09-23T12:50:29Z",
+      "note": "Owner approval given in chat for this exact digest; recorded by the agent. Local claim: unverified."
+    },
+    {
+      "artifact": "spec.md",
+      "sha256": "sha256:a3096645cafc2319eda02da58b9f4276c450ecbb77670f0ec8b394bee0995b5b",
+      "by": "naelonambul (owner)",
+      "at": "2026-09-23T12:54:31Z",
+      "note": "Owner approval given in chat for this exact digest; recorded by the agent. Local claim: unverified."
+    },
+    {
+      "artifact": "plan.md",
+      "sha256": "sha256:1e3edb75f80a1f349eca0dae5fd21c8a80c8638072b6b4382b9fc921d419ed72",
+      "by": "naelonambul (owner)",
+      "at": "2026-09-23T13:15:57Z",
+      "note": "Owner approval given in chat for this exact digest; recorded by the agent. Local claim: unverified."
+    }
+  ]
+}
