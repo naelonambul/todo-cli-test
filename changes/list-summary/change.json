@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "id": "list-summary",
+  "kind": "behavior",
+  "title": "list ends with a summary line (N todos, M complete)",
+  "base": {
+    "ref": "main",
+    "commit": "2b60efb0859407ebc596ec318d60bae7599cd974"
+  },
+  "baseline": {
+    "intent.md": "sha256:5acae8a69495f6cccf4b4c059e0c979f1b513004fd9e83a50c2ef14843b40dbd",
+    "spec.md": "sha256:a3096645cafc2319eda02da58b9f4276c450ecbb77670f0ec8b394bee0995b5b"
+  },
+  "write_scope": [
+    "spec.md",
+    "todo_cli/cli.py",
+    "tests/test_cli.py"
+  ],
+  "approvals": [
+    {
+      "artifact": "spec.md",
+      "sha256": "sha256:6560fb2e80d9a21f06d8859181cbd8f5ac4597ae43b28f0a02f247b58ce25253",
+      "by": "naelonambul (owner)",
+      "at": "2026-09-23T14:11:47Z",
+      "note": "Owner approval given in chat for this exact digest; recorded by the agent. Local claim: unverified."
+    },
+    {
+      "artifact": "plan.md",
+      "sha256": "sha256:4c95d705c7c2a81477cc63769c974cd64e5eaa706ca3c607f9cdbdb2c87cf8a2",
+      "by": "naelonambul (owner)",
+      "at": "2026-09-23T14:13:44Z",
+      "note": "Owner approval given in chat for this exact digest; recorded by the agent. Local claim: unverified."
+    }
+  ]
+}

@@ -24,7 +24,7 @@ class CliTests(IsolatedTestCase):
         status, output, error = self.run_main("add", "buy", "milk")
         self.assertEqual((status, output, error), (0, "Added 1: buy milk\n", ""))
         result = self.subprocess("list")
-        self.assertEqual((result.returncode, result.stdout, result.stderr), (0, "[ ] 1 buy milk\n", ""))
+        self.assertEqual((result.returncode, result.stdout, result.stderr), (0, "[ ] 1 buy milk\n1 todo, 0 complete\n", ""))
 
     def test_complete_is_idempotent_and_list_shows_mixed_items_sorted(self) -> None:
         self.subprocess("add", "second")
@@ -34,7 +34,7 @@ class CliTests(IsolatedTestCase):
         repeated = self.subprocess("complete", "1")
         self.assertEqual((repeated.returncode, repeated.stdout), (0, "Todo 1 is already complete.\n"))
         listing = self.subprocess("list")
-        self.assertEqual(listing.stdout, "[x] 1 second\n[ ] 2 first\n")
+        self.assertEqual(listing.stdout, "[x] 1 second\n[ ] 2 first\n2 todos, 1 complete\n")
 
     def test_delete_keeps_ids_and_next_id_advances(self) -> None:
         for name in ("one", "two", "three"):
@@ -42,7 +42,24 @@ class CliTests(IsolatedTestCase):
         self.assertEqual(self.subprocess("delete", "3").stdout, "Deleted 3: three\n")
         self.assertEqual(self.subprocess("add", "four").stdout, "Added 4: four\n")
         self.subprocess("delete", "2")
-        self.assertEqual(self.subprocess("list").stdout, "[ ] 1 one\n[ ] 4 four\n")
+        self.assertEqual(self.subprocess("list").stdout, "[ ] 1 one\n[ ] 4 four\n2 todos, 0 complete\n")
+
+    def test_list_summary_line(self) -> None:
+        self.subprocess("add", "one")
+        self.assertEqual(self.subprocess("list").stdout, "[ ] 1 one\n1 todo, 0 complete\n")
+        self.subprocess("add", "two")
+        self.subprocess("complete", "2")
+        self.assertEqual(self.subprocess("list").stdout, "[ ] 1 one\n[x] 2 two\n2 todos, 1 complete\n")
+        self.subprocess("add", "three")
+        for todo_id in ("1", "3"):
+            self.subprocess("complete", todo_id)
+        self.assertEqual(
+            self.subprocess("list").stdout,
+            "[x] 1 one\n[x] 2 two\n[x] 3 three\n3 todos, 3 complete\n",
+        )
+        for todo_id in ("1", "2", "3"):
+            self.subprocess("delete", todo_id)
+        self.assertEqual(self.subprocess("list").stdout, "No todos.\n")
 
     def test_empty_store_and_missing_file_list(self) -> None:
         result = self.subprocess("list")
@@ -138,5 +155,5 @@ class DefaultLocationCliTests(IsolatedTestCase):
         added = self.subprocess("add", "default", "todo")
         self.assertEqual((added.returncode, added.stdout, added.stderr), (0, "Added 1: default todo\n", ""))
         listed = self.subprocess("list")
-        self.assertEqual((listed.returncode, listed.stdout, listed.stderr), (0, "[ ] 1 default todo\n", ""))
+        self.assertEqual((listed.returncode, listed.stdout, listed.stderr), (0, "[ ] 1 default todo\n1 todo, 0 complete\n", ""))
         self.assertTrue(default_file.exists())

@@ -68,6 +68,9 @@ def main(argv: Sequence[str] | None = None) -> int:
                 for todo in todos:
                     marker = "x" if todo["done"] else " "
                     print(f"[{marker}] {todo['id']} {todo['text']}")
+                total = len(todos)
+                done = sum(1 for todo in todos if todo["done"])
+                print(f"{total} {'todo' if total == 1 else 'todos'}, {done} complete")
         elif args.command == "complete":
             data = store.load()
             original = next((item for item in data["todos"] if item["id"] == args.id), None)
