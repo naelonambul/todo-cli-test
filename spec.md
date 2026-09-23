@@ -9,7 +9,7 @@
 ### Functional
 
 - **FR1 Add.** `add TEXT...` creates an incomplete todo with the given text and the next unused identifier, saves it, and reports the new identifier.
-- **FR2 List.** `list` prints every todo, incomplete and completed, in ascending identifier order. Each line shows the completion marker, the identifier and the text. With no todos, it prints a message saying so.
+- **FR2 List.** `list` prints every todo, incomplete and completed, in ascending identifier order. Each line shows the completion marker, the identifier and the text. A final summary line gives the total number of todos and how many are complete. With no todos, it prints a message saying so.
 - **FR3 Complete.** `complete ID` marks the todo with that identifier complete and saves it. Completing an already-complete todo succeeds and changes nothing.
 - **FR4 Delete.** `delete ID` removes the todo with that identifier and saves the result. The identifier is never assigned again.
 - **FR5 Persistence.** Todos persist between invocations in the data file (see "Interfaces, data, and dependencies").
@@ -32,13 +32,15 @@ Invocation: `python3 -m todo_cli <command> [arguments]`, run from the repository
 | Command | Arguments | Standard output on success | Exit |
 |---|---|---|---|
 | `add` | one or more words of text | `Added 3: buy milk` | 0 |
-| `list` | none | one line per todo, or `No todos.` | 0 |
+| `list` | none | one line per todo followed by a summary line, or `No todos.` | 0 |
 | `complete` | `ID` | `Completed 3: buy milk`, or `Todo 3 is already complete.` | 0 |
 | `delete` | `ID` | `Deleted 3: buy milk` | 0 |
 
 **Text.** The words given to `add` are joined with single spaces, then leading and trailing whitespace is removed. The result must not be empty. It must not contain line breaks or other control characters, so each todo stays on one output line.
 
 **List format.** One line per todo: `[ ] 1 buy milk` for an incomplete todo, `[x] 2 call the bank` for a completed one. The marker, identifier and text are separated by single spaces, and identifiers are not padded.
+
+**List summary.** When at least one todo exists, `list` ends with one summary line after the todo lines: `<N> todos, <M> complete`, where `<N>` is the number of todos and `<M>` the number of completed todos. It uses `todo` instead of `todos` when `<N>` is 1. Examples: `1 todo, 0 complete`, `2 todos, 1 complete`, `3 todos, 3 complete`. There is no blank line before it. An empty store prints only `No todos.`, with no summary line.
 
 **Identifiers on the command line.** `ID` must be a positive decimal integer. Anything else, such as `0`, `-1`, `abc` or `1.5`, is a usage error.
 
@@ -109,7 +111,7 @@ Tests live in `tests/` as standard-library `unittest` modules. Every case runs i
 2. Todos added in one invocation are listed by a later, separate invocation.
 3. `complete 1` prints `Completed 1: <text>`, and `list` then shows `[x] 1 <text>`. Running `complete 1` again prints `Todo 1 is already complete.` and exits 0.
 4. After adding todos 1–3 and deleting 3, the next `add` receives identifier 4. Deleting 2 leaves 1 and 4 unchanged.
-5. `list` shows incomplete and completed todos together, in ascending identifier order. An empty store prints `No todos.`
+5. `list` shows incomplete and completed todos together, in ascending identifier order, followed by the summary line. For example, one incomplete and one completed todo end with `2 todos, 1 complete`, and a single todo ends with `1 todo, 0 complete`. An empty store prints only `No todos.`
 6. `add` with empty or whitespace-only text, or text containing a control character, exits 1 with an error on standard error and leaves the data file byte-for-byte unchanged.
 7. `complete` or `delete` with an unknown identifier exits 1 with `no todo with id <n>` and leaves the data file unchanged.
 8. A malformed `ID` (`0`, `-1`, `abc`) exits 2.
