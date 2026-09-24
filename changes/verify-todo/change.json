@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "id": "verify-todo",
+  "kind": "repository",
+  "title": "verify-todo: project-local verification skill and feature map, proven end to end",
+  "base": {
+    "ref": "main",
+    "commit": "4782f4a465928ffd293ef9d89018d5a27256720f"
+  },
+  "baseline": {},
+  "write_scope": [
+    ".agents/skills/verify-todo/",
+    ".claude/skills/verify-todo"
+  ],
+  "approvals": [
+    {
+      "artifact": "plan.md",
+      "sha256": "sha256:32804c830fa2886b6f4fb016f32b610d344d41270936b38ff3d9ad8a0d05ba1b",
+      "by": "naelonambul (owner)",
+      "at": "2026-09-24T10:00:24Z",
+      "note": "Owner approval given in chat for this exact digest; recorded by the agent. Local claim: unverified."
+    }
+  ]
+}
