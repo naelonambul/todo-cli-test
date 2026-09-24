@@ -31,6 +31,9 @@ def _parser() -> argparse.ArgumentParser:
     subparsers.add_parser("list")
     complete_parser = subparsers.add_parser("complete")
     complete_parser.add_argument("id", type=positive_id)
+    edit_parser = subparsers.add_parser("edit")
+    edit_parser.add_argument("id", type=positive_id)
+    edit_parser.add_argument("text", nargs="+")
     delete_parser = subparsers.add_parser("delete")
     delete_parser.add_argument("id", type=positive_id)
     return parser
@@ -82,6 +85,15 @@ def main(argv: Sequence[str] | None = None) -> int:
             updated, todo = store.complete(data, args.id)
             store.save(updated)
             print(f"Completed {todo['id']}: {todo['text']}")
+        elif args.command == "edit":
+            text = _validate_text(args.text)
+            data = store.load()
+            try:
+                updated, todo = store.edit(data, args.id, text)
+            except KeyError as exc:
+                raise ValueError(f"no todo with id {args.id}") from exc
+            store.save(updated)
+            print(f"Edited {todo['id']}: {todo['text']}")
         elif args.command == "delete":
             data = store.load()
             try:

@@ -59,6 +59,35 @@ class StoreTests(IsolatedTestCase):
         self.assertEqual(updated["todos"][-1]["id"], 4)
         self.assertEqual(updated["next_id"], 5)
 
+    def test_edit_replaces_text_without_mutating_input(self) -> None:
+        data = {
+            "version": 1,
+            "next_id": 5,
+            "todos": [
+                {"id": 3, "text": "three", "done": True},
+                {"id": 1, "text": "one", "done": False},
+                {"id": 4, "text": "four", "done": False},
+            ],
+        }
+        original = {**data, "todos": [dict(todo) for todo in data["todos"]]}
+        updated, edited = store.edit(data, 1, "uno")
+
+        self.assertEqual(edited, {"id": 1, "text": "uno", "done": False})
+        self.assertEqual(
+            updated["todos"],
+            [
+                {"id": 3, "text": "three", "done": True},
+                {"id": 1, "text": "uno", "done": False},
+                {"id": 4, "text": "four", "done": False},
+            ],
+        )
+        self.assertEqual(updated["next_id"], 5)
+        self.assertEqual(updated["version"], 1)
+        self.assertEqual(data, original)
+        self.assertTrue(all(new is not old for new, old in zip(updated["todos"], data["todos"])))
+        with self.assertRaises(KeyError):
+            store.edit(data, 7, "missing")
+
     def test_save_writes_indented_json_and_trailing_newline(self) -> None:
         store.save({"version": 1, "next_id": 2, "todos": [{"id": 1, "text": "one", "done": False}]})
         content = self.data_file.read_text(encoding="utf-8")
