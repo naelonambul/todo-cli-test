@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "id": "edit-todo",
+  "kind": "behavior",
+  "title": "edit ID TEXT... replaces a todo's text, keeping its id, completion state, position and next_id",
+  "base": {
+    "ref": "main",
+    "commit": "4d0eea00b93809b592350884a13e5b2941bcb212"
+  },
+  "baseline": {
+    "intent.md": "sha256:5acae8a69495f6cccf4b4c059e0c979f1b513004fd9e83a50c2ef14843b40dbd",
+    "spec.md": "sha256:6560fb2e80d9a21f06d8859181cbd8f5ac4597ae43b28f0a02f247b58ce25253"
+  },
+  "write_scope": [
+    "spec.md",
+    "todo_cli/cli.py",
+    "todo_cli/store.py",
+    "tests/test_cli.py",
+    "tests/test_store.py",
+    "tests/test_edit_acceptance.py"
+  ],
+  "approvals": [
+    {
+      "artifact": "spec.md",
+      "sha256": "sha256:25f3f487cb0bb821f3164b03feffa60c4492044a9e15b861140dd8049e512bf9",
+      "by": "naelonambul (owner)",
+      "at": "2026-09-24T02:50:00Z",
+      "note": "Owner approval given in chat for this exact digest; recorded by the agent. Local claim: unverified."
+    },
+    {
+      "artifact": "plan.md",
+      "sha256": "sha256:b7a4cb5f1fcdd75d80aa35cbb3299a79a9deabae52e4fded6069a1d343712fa4",
+      "by": "naelonambul (owner)",
+      "at": "2026-09-24T02:50:01Z",
+      "note": "Owner approval given in chat for this exact digest; recorded by the agent. Local claim: unverified."
+    }
+  ]
+}
