@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "baseline": {
+    "spec.md": "sha256:25f3f487cb0bb821f3164b03feffa60c4492044a9e15b861140dd8049e512bf9"
+  },
+  "packet_sha256": "sha256:53779632f85fc9be706e52d3e53fc9942d77194aa17ccf60c48be4dc8ae57b8c",
+  "evidence": [
+    "local: python3 scripts/repo.py verify --change edit-todo -> control-plane passed, product-tests passed (.evidence/20260924T025527789643Z/evidence.json)",
+    "local: python3 scripts/repo.py verify --full -> control-plane passed, product-tests passed (.evidence/20260924T025551092584Z/evidence.json)"
+  ]
+}

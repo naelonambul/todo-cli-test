@@ -87,18 +87,20 @@ class CliTests(IsolatedTestCase):
     def test_unknown_ids_leave_data_unchanged(self) -> None:
         self.subprocess("add", "existing")
         original = self.data_file.read_bytes()
-        for operation in ("complete", "delete"):
-            result = self.subprocess(operation, "7")
+        for operation in ("complete", "delete", "edit"):
+            arguments = (operation, "7", "new") if operation == "edit" else (operation, "7")
+            result = self.subprocess(*arguments)
             self.assertEqual(result.returncode, 1)
             self.assertEqual(result.stdout, "")
             self.assertEqual(result.stderr, "todo_cli: error: no todo with id 7\n")
             self.assertEqual(self.data_file.read_bytes(), original)
 
     def test_malformed_ids_are_usage_errors(self) -> None:
-        for operation in ("complete", "delete"):
+        for operation in ("complete", "delete", "edit"):
             for value in ("0", "-1", "abc", "1.5"):
                 with self.subTest(operation=operation, value=value):
-                    result = self.subprocess(operation, value)
+                    arguments = (operation, value, "new") if operation == "edit" else (operation, value)
+                    result = self.subprocess(*arguments)
                     self.assertEqual(result.returncode, 2)
                     self.assertEqual(result.stdout, "")
                     self.assertIn("usage:", result.stderr)
@@ -118,7 +120,7 @@ class CliTests(IsolatedTestCase):
             '{"version":1,"next_id":3,"todos":[{"id":1,"text":"x","done":false},{"id":1,"text":"y","done":true}]}',
         ]
         for bad_data in invalid_data:
-            for command in (("list",), ("add", "new"), ("complete", "1"), ("delete", "1")):
+            for command in (("list",), ("add", "new"), ("complete", "1"), ("delete", "1"), ("edit", "1", "new")):
                 with self.subTest(bad_data=bad_data, command=command):
                     self.data_file.write_text(bad_data, encoding="utf-8")
                     original = self.data_file.read_bytes()

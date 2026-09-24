@@ -120,6 +120,16 @@ def complete(data: dict[str, Any], todo_id: int) -> tuple[dict[str, Any], dict[s
     raise KeyError(todo_id)
 
 
+def edit(data: dict[str, Any], todo_id: int, text: str) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Return the store with the requested todo's text replaced."""
+    updated = {**data, "todos": [dict(todo) for todo in data["todos"]]}
+    for todo in updated["todos"]:
+        if todo["id"] == todo_id:
+            todo["text"] = text
+            return updated, todo
+    raise KeyError(todo_id)
+
+
 def delete(data: dict[str, Any], todo_id: int) -> tuple[dict[str, Any], dict[str, Any]]:
     """Return the store without the requested todo and the removed todo."""
     for todo in data["todos"]:
